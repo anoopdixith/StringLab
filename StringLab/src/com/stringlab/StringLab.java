@@ -935,4 +935,51 @@ public class StringLab implements Serializable{
     }
     return matchIndex;
   }
+  
+  
+  public ArrayList<String> doubleJustify(int width) {
+    ArrayList<String> allLines = new ArrayList<String>();
+    StringTokenizer tokenizer = new StringTokenizer(string);
+    int runningLength = 0;
+    int wordsInLine = 0;
+    StringBuilder eachLine = new StringBuilder();
+    while(tokenizer.hasMoreElements()) {
+      String word = tokenizer.nextToken();
+      runningLength += word.length();
+      if(runningLength < width) {
+        eachLine = eachLine.append(word + " ");
+        wordsInLine++;
+      }
+      else {
+        int currentLength = eachLine.length();
+        int numberOfSpacesNeeded = width - currentLength;
+        int numberOfGaps = wordsInLine - 1;
+        int eachGap = numberOfSpacesNeeded / numberOfGaps;
+        int remainingSpaces = numberOfSpacesNeeded % numberOfGaps;
+        char[] everyLine = new char[width];
+        int p =0;
+        for(int k=0; k < everyLine.length; k++) {
+          everyLine[k] = eachLine.charAt(p);
+          if(eachLine.charAt(p) == ' ') {
+            //gap < eachGap - 1 because we already have a space
+            for(int gap =0; gap < eachGap - 1; gap++) {
+              everyLine[k++] = ' ';
+            }
+            if(remainingSpaces > 0) {
+              everyLine[k] = ' ';
+              remainingSpaces--;
+            }
+            p++;
+          }
+        }
+        allLines.add(new String(everyLine));
+        
+        runningLength = 0;
+        eachLine = new StringBuilder();
+        eachLine.append(word);
+        wordsInLine = 0;
+      }
+    }
+    return allLines;
+  }
 }
