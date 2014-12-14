@@ -912,9 +912,27 @@ public class StringLab implements Serializable{
     return new StringLab().charToString(stringArr);
   }
   
-  public int matchTrivial(String str, String pattern) {
+  public int matchTrivial(String pattern) {
     int matchIndex = -1;
-    
+    char[] haystack = string.toCharArray();
+    char[] needle = pattern.toCharArray();
+    for(int i=0; i <= haystack.length; i++) {
+      for(int j=0; j <= needle.length; j++) {
+        if(j == needle.length) {
+          matchIndex = i - needle.length;
+          return matchIndex;
+        }
+        if(i == haystack.length) {
+          return matchIndex;
+        }
+        if(haystack[i] == needle[j]) {
+          i++;
+          continue;
+        }
+        j = 0;
+        i = i -j +1;
+      }
+    }
     return matchIndex;
   }
 }
